@@ -1,0 +1,72 @@
+{% extends 'cuentas/base.html' %}
+
+{% block content %}
+
+
+{% include 'cuentas/estado.html' %}
+
+<br>
+
+<div class="row">
+	<div class="col-md-6">
+		<h5>MARCAR:</h5>
+		<hr>
+		<div class="card card-body" style="height:150px">
+			<form action="" method="post">
+				{% csrf_token %}
+
+				<!-- Comprueba que solo exisstan 2 registros -->
+				{% if filtro >= 1 %}
+				<button type="submit" class="btn btn-primary  btn-block" disabled>Marcar</button>
+
+				<div style="padding-top:5px;">
+
+					<input name="timepkr" value="00:00:00" type="time" class="form-control" placeholder="HH:MM:SS"
+						disabled />
+				</div>
+
+				{% else %}
+				<button type="submit" class="btn btn-primary  btn-block">Marcar</button>
+
+				<div style="padding-top:5px;">
+
+					<input name="timepkr" value="00:00:00" type="time" class="form-control" placeholder="HH:MM:SS" />
+				</div>
+				{% endif %}
+
+			</form>
+
+		</div>
+	</div>
+
+
+	<div class="col-md-6">
+		<h5>REGISTROS:</h5>
+		<hr>
+		<div class="card card-body" style="height:150px">
+			<table class="table table-sm">
+				<tr>
+					<th>Hora</th>
+					<th>Estado</th>
+					<th>Fecha</th>
+					<!-- <th>Actualizar</th>
+					<th>Eliminar</th> -->
+				</tr>
+
+				{% for i in registros %}
+				<tr>
+					<td>{{i.hora_actual}}</td>
+					<td>{{i.estado}}</td>
+					<td>{{i.fecha_creado | date:"d/m/Y"}}</td>
+					<!-- <td><a class="btn btn-info btn-sm" href="#">Editar</a></td>
+					<td><a class="btn btn-danger btn-sm" href="#">Eliminar</a></td> -->
+				</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}

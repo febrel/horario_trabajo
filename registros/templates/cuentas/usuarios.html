@@ -1,0 +1,82 @@
+{% extends 'cuentas/base.html' %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Cliente:</h5>
+			<hr>
+			<a class="btn btn-info  btn-sm btn-block " href="#">Actualizar Cliente</a>
+			<a class="btn btn-danger  btn-sm btn-block mt-1" href="#">Eliminar Cliente</a>
+
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Información de Contacto</h5>
+			<hr>
+			<p>Email: # </p>
+			<p>Teléfono: # </p>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total Pedidos</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">#</h1>
+		</div>
+	</div>
+</div>
+
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+				#
+
+		    <button class="btn btn-primary" type="submit">Buscar</button>
+		  </form>
+		</div>
+	</div>
+	
+</div>
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th>Producto</th>
+					<th>Nota</th>
+					<th>Fecha Pedido</th>
+					<th>Estado</th>
+					<th>Actualizar</th>
+					<th>Eliminar</th>
+				</tr>
+				
+				<!-- {% for i in pedidos %} -->
+					<tr>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+						<td>#</td>
+						<td><a class="btn btn-info btn-sm" href="{% url 'editar_pedido' i.id %}">Editar</a></td>
+						<td><a class="btn btn-danger btn-sm" href="{% url 'eliminar_pedido' i.id %}">Eliminar</a></td>
+					</tr>
+				<!-- {% endfor %} -->
+
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+    
