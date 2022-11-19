@@ -45,7 +45,7 @@
 		<hr>
 		<div class="card card-body" style="height:150px">
 			<table class="table table-sm">
-				<tr>
+				<tr class="text-center ">
 					<th>Hora</th>
 					<th>Estado</th>
 					<th>Fecha</th>
@@ -54,10 +54,15 @@
 				</tr>
 
 				{% for i in registros %}
-				<tr>
+				<tr class="text-center ">
 					<td>{{i.hora_actual}}</td>
-					<td>{{i.estado}}</td>
-					<td>{{i.fecha_creado | date:"d/m/Y"}}</td>
+					{% if i.estado >= 'Salida' %}
+					<td class="table-danger">{{i.estado}}</td>
+					{% else %}
+					<td class="table-success">{{i.estado}}</td>
+					{% endif %}
+					
+					<td>{{i.fecha_creado | date:"d-m-Y"}}</td>
 					<!-- <td><a class="btn btn-info btn-sm" href="#">Editar</a></td>
 					<td><a class="btn btn-danger btn-sm" href="#">Eliminar</a></td> -->
 				</tr>

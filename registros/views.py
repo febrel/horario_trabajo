@@ -7,7 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+import threading
+
 
 
 
@@ -15,11 +18,30 @@ from datetime import datetime
 @login_required
 def home(request):
 
+    # Guardo la fecha actual del sistema
+    now = datetime.now()
+    entrada = now.strftime('%d-%m-%Y')
+
+
     # Query DB
     registros_obtenidos = Registro.objects.all()
-    
+    filtro_registros = registros_obtenidos.filter(usuario=request.user)
     filtro_contador = registros_obtenidos.filter(usuario=request.user).count()
+
+    # Solo muestra los ultimos 2
+    filtro_ultimo = filtro_registros.order_by('-fecha_creado')[:2]
+   
+   
+    dato = filtro_registros.order_by('fecha_creado').last()
+
     contador = filtro_contador
+
+    fecha_db = dato.fecha_creado.strftime('%d-%m-%Y')
+
+    # Comprueba que no tenga registros del ultimo dia
+    if entrada != fecha_db:
+        contador = 0
+ 
 
     # Si recibe un post
     if request.method == 'POST':
@@ -30,16 +52,15 @@ def home(request):
             estado_creado = 'Entrada'
         else:
             estado_creado = 'Salida'
+    
 
         # Guarda en la DB
         registro = Registro(usuario=request.user, hora_actual=hora_recibida, estado=estado_creado)
         registro.save()
     
-    
-    
-    filtro_registros = registros_obtenidos.filter(usuario=request.user)
 
-    contexto = {'registros':filtro_registros,'filtro':contador}
+
+    contexto = {'registros':filtro_ultimo,'filtro':contador}
 
     return render(request, 'cuentas/dashboard.html', contexto)
 
@@ -60,10 +81,10 @@ def login_page(request):
             messages.error(request, 'Los datos no son correctos!')
             return redirect('login')
 
-
     contexto = {}
 
     return render(request, 'cuentas/login.html', contexto)
+
 
 
 def logout_page(request):
